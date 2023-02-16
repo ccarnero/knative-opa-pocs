@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "ext_auth_svc"
+		},
+		{
+			"path": "kourier_configs"
+		},
+		{
+			"path": "knative_serving_services"
+		},
+		{
+			"path": "ext_auth_svc_opa"
+		},
+		{
+			"path": "opa-bundle-server"
+		}
+	]
+}

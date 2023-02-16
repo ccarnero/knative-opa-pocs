@@ -1,0 +1,7 @@
+# These files/dirs will be ignored while copying to docker
+.gitignore
+*.log
+npm-debug.log*
+.git
+node_modules
+

@@ -1,0 +1,252 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: net-kourier-controller
+  namespace: knative-serving
+  uid: 23a2486b-a1b1-4dcc-9178-e65ba06e6b27
+  resourceVersion: '1200'
+  generation: 1
+  creationTimestamp: '2023-02-08T17:18:31Z'
+  labels:
+    app.kubernetes.io/component: net-kourier
+    app.kubernetes.io/name: knative-serving
+    app.kubernetes.io/version: 1.8.0
+    networking.knative.dev/ingress-provider: kourier
+  annotations:
+    deployment.kubernetes.io/revision: '1'
+    kubectl.kubernetes.io/last-applied-configuration: >
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"net-kourier","app.kubernetes.io/name":"knative-serving","app.kubernetes.io/version":"1.8.0","networking.knative.dev/ingress-provider":"kourier"},"name":"net-kourier-controller","namespace":"knative-serving"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"net-kourier-controller"}},"template":{"metadata":{"labels":{"app":"net-kourier-controller"}},"spec":{"containers":[{"env":[{"name":"CERTS_SECRET_NAMESPACE","value":""},{"name":"CERTS_SECRET_NAME","value":""},{"name":"SYSTEM_NAMESPACE","valueFrom":{"fieldRef":{"fieldPath":"metadata.namespace"}}},{"name":"METRICS_DOMAIN","value":"knative.dev/samples"},{"name":"KOURIER_GATEWAY_NAMESPACE","value":"kourier-system"},{"name":"ENABLE_SECRET_INFORMER_FILTERING_BY_CERT_UID","value":"false"}],"image":"gcr.io/knative-releases/knative.dev/net-kourier/cmd/kourier@sha256:2e3367f5e81aa1140a9f467ecc21b9ce1826b6a9fc3c37cf1e65656c7e1fb22e","name":"controller","ports":[{"containerPort":18000,"name":"http2-xds","protocol":"TCP"}],"readinessProbe":{"exec":{"command":["/ko-app/kourier","-probe-addr=:18000"]}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsNonRoot":true,"seccompProfile":{"type":"RuntimeDefault"}}}],"restartPolicy":"Always","serviceAccountName":"net-kourier"}}}}
+  managedFields:
+    - manager: kubectl-client-side-apply
+      operation: Update
+      apiVersion: apps/v1
+      time: '2023-02-08T17:18:31Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:kubectl.kubernetes.io/last-applied-configuration: {}
+          f:labels:
+            .: {}
+            f:app.kubernetes.io/component: {}
+            f:app.kubernetes.io/name: {}
+            f:app.kubernetes.io/version: {}
+            f:networking.knative.dev/ingress-provider: {}
+        f:spec:
+          f:progressDeadlineSeconds: {}
+          f:replicas: {}
+          f:revisionHistoryLimit: {}
+          f:selector: {}
+          f:strategy:
+            f:rollingUpdate:
+              .: {}
+              f:maxSurge: {}
+              f:maxUnavailable: {}
+            f:type: {}
+          f:template:
+            f:metadata:
+              f:labels:
+                .: {}
+                f:app: {}
+            f:spec:
+              f:containers:
+                k:{"name":"controller"}:
+                  .: {}
+                  f:env:
+                    .: {}
+                    k:{"name":"CERTS_SECRET_NAME"}:
+                      .: {}
+                      f:name: {}
+                    k:{"name":"CERTS_SECRET_NAMESPACE"}:
+                      .: {}
+                      f:name: {}
+                    k:{"name":"ENABLE_SECRET_INFORMER_FILTERING_BY_CERT_UID"}:
+                      .: {}
+                      f:name: {}
+                      f:value: {}
+                    k:{"name":"KOURIER_GATEWAY_NAMESPACE"}:
+                      .: {}
+                      f:name: {}
+                      f:value: {}
+                    k:{"name":"METRICS_DOMAIN"}:
+                      .: {}
+                      f:name: {}
+                      f:value: {}
+                    k:{"name":"SYSTEM_NAMESPACE"}:
+                      .: {}
+                      f:name: {}
+                      f:valueFrom:
+                        .: {}
+                        f:fieldRef: {}
+                  f:image: {}
+                  f:imagePullPolicy: {}
+                  f:name: {}
+                  f:ports:
+                    .: {}
+                    k:{"containerPort":18000,"protocol":"TCP"}:
+                      .: {}
+                      f:containerPort: {}
+                      f:name: {}
+                      f:protocol: {}
+                  f:readinessProbe:
+                    .: {}
+                    f:exec:
+                      .: {}
+                      f:command: {}
+                    f:failureThreshold: {}
+                    f:periodSeconds: {}
+                    f:successThreshold: {}
+                    f:timeoutSeconds: {}
+                  f:resources: {}
+                  f:securityContext:
+                    .: {}
+                    f:allowPrivilegeEscalation: {}
+                    f:capabilities:
+                      .: {}
+                      f:drop: {}
+                    f:readOnlyRootFilesystem: {}
+                    f:runAsNonRoot: {}
+                    f:seccompProfile:
+                      .: {}
+                      f:type: {}
+                  f:terminationMessagePath: {}
+                  f:terminationMessagePolicy: {}
+              f:dnsPolicy: {}
+              f:restartPolicy: {}
+              f:schedulerName: {}
+              f:securityContext: {}
+              f:serviceAccount: {}
+              f:serviceAccountName: {}
+              f:terminationGracePeriodSeconds: {}
+    - manager: kube-controller-manager
+      operation: Update
+      apiVersion: apps/v1
+      time: '2023-02-08T17:18:47Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:deployment.kubernetes.io/revision: {}
+        f:status:
+          f:availableReplicas: {}
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              .: {}
+              f:lastTransitionTime: {}
+              f:lastUpdateTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Progressing"}:
+              .: {}
+              f:lastTransitionTime: {}
+              f:lastUpdateTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+              f:type: {}
+          f:observedGeneration: {}
+          f:readyReplicas: {}
+          f:replicas: {}
+          f:updatedReplicas: {}
+      subresource: status
+  selfLink: /apis/apps/v1/namespaces/knative-serving/deployments/net-kourier-controller
+status:
+  observedGeneration: 1
+  replicas: 1
+  updatedReplicas: 1
+  readyReplicas: 1
+  availableReplicas: 1
+  conditions:
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2023-02-08T17:18:47Z'
+      lastTransitionTime: '2023-02-08T17:18:47Z'
+      reason: MinimumReplicasAvailable
+      message: Deployment has minimum availability.
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2023-02-08T17:18:47Z'
+      lastTransitionTime: '2023-02-08T17:18:31Z'
+      reason: NewReplicaSetAvailable
+      message: >-
+        ReplicaSet "net-kourier-controller-55c99987b4" has successfully
+        progressed.
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: net-kourier-controller
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: net-kourier-controller
+    spec:
+      containers:
+        - name: controller
+          image: >-
+            gcr.io/knative-releases/knative.dev/net-kourier/cmd/kourier@sha256:2e3367f5e81aa1140a9f467ecc21b9ce1826b6a9fc3c37cf1e65656c7e1fb22e
+          ports:
+            - name: http2-xds
+              containerPort: 18000
+              protocol: TCP
+          env:
+            - name: CERTS_SECRET_NAMESPACE
+            - name: CERTS_SECRET_NAME
+            - name: SYSTEM_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: METRICS_DOMAIN
+              value: knative.dev/samples
+            - name: KOURIER_GATEWAY_NAMESPACE
+              value: kourier-system
+            - name: ENABLE_SECRET_INFORMER_FILTERING_BY_CERT_UID
+              value: 'false'
+            - name: KOURIER_EXTAUTHZ_HOST
+              value: extauthsvc.knative-serving.svc.cluster.local:8080
+            - name: KOURIER_EXTAUTHZ_FAILUREMODEALLOW
+              value: "false"
+            - name: KOURIER_EXTAUTHZ_PROTOCOL
+              value: http              
+          resources: {}
+          readinessProbe:
+            exec:
+              command:
+                - /ko-app/kourier
+                - '-probe-addr=:18000'
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      serviceAccountName: net-kourier
+      serviceAccount: net-kourier
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600

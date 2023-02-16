@@ -1,0 +1,17 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: hello-python
+  namespace: talbots
+spec:
+  template:
+    spec:
+      containers:
+      - image: docker.io/ccarnero/kopa-hello-python:latest
+        livenessProbe:
+          httpGet:
+            path: /healthz
+        readinessProbe:
+          httpGet:
+            path: /healthz
+

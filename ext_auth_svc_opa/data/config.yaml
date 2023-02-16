@@ -1,0 +1,12 @@
+services:
+  bundle-server:
+    url: http://opa-bundle-server:8080/
+
+bundles:
+  authz:
+    service: bundle-server
+    resource: bundle.tar.gz
+    persist: true
+    polling:
+      min_delay_seconds: 10
+      max_delay_seconds: 20

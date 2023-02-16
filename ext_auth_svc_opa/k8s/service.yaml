@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ext-auth-svc-opa
+  namespace: knative-serving
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ext-auth-svc-opa
+  template:
+    metadata:
+      labels:
+        app: ext-auth-svc-opa
+    spec:
+      containers:
+      - image: docker.io/ccarnero/ext-auth-svc-opa
+        name: ext-auth-svc-opa
+        ports:
+        - containerPort: 8181
+        readinessProbe:
+          tcpSocket:
+            port: 8181
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ext-auth-svc-opa
+  namespace: knative-serving
+spec:
+  type: ClusterIP
+  selector:
+    app: ext-auth-svc-opa
+  ports:
+  - name: http
+    port: 8181
+    protocol: TCP

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opa-bundle-server
+  namespace: knative-serving
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opa-bundle-server
+  template:
+    metadata:
+      labels:
+        app: opa-bundle-server
+    spec:
+      containers:
+      - image: docker.io/ccarnero/opa-bundle-server:latest
+        name: opa-bundle-server
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: opa-bundle-server
+  namespace: knative-serving
+spec:
+  type: ClusterIP
+  selector:
+    app: opa-bundle-server
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP

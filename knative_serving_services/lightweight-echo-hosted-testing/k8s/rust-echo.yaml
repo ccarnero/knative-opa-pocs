@@ -1,0 +1,20 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: rust-echo-contoso
+  namespace: contoso
+  # makes service private
+  # labels:
+  #   serving.knative.dev/visibility: cluster-local  
+spec:
+  template:
+    spec:
+      containers:
+      - image: docker.io/ccarnero/kopa-rust-echo:latest
+        livenessProbe:
+          httpGet:
+            path: /healthz
+        readinessProbe:
+          httpGet:
+            path: /healthz
+
