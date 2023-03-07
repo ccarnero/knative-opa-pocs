@@ -17,6 +17,9 @@
 		},
 		{
 			"path": "notes"
+		},
+		{
+			"path": "ext_auth_opa_client_svc"
 		}
 	]
 }
