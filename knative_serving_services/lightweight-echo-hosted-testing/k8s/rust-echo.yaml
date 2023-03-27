@@ -1,13 +1,16 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: rust-echo-contoso
-  namespace: contoso
+  name: rust-echo
+  # namespace: contoso
   # makes service private
   # labels:
   #   serving.knative.dev/visibility: cluster-local  
 spec:
   template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/min-scale: "1"
     spec:
       containers:
       - image: docker.io/ccarnero/kopa-rust-echo:latest

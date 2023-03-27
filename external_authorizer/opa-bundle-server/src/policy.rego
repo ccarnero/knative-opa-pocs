@@ -4,8 +4,8 @@ default allow = false
 
 allow = true {
     role = input.subject.roles[_] # // each role
-    print("role", role)
-    role == "madam" # // allow = true if role matches "admin"
+    print("roles: ", role)
+    role == "admin" # // allow = true if role matches "admin"
 }
 
 # allow {

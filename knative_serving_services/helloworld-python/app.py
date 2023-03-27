@@ -11,7 +11,10 @@ def hello_world():
     redirect_to = request.headers.get('redirect-to')
     if redirect_to:
         try:
-            response = requests.get(redirect_to)
+            role = request.headers.get('Authorization')
+            headers = {'Authorization': f'{role}'}
+            print(headers)
+            response = requests.get(redirect_to, headers=headers)
             if response.status_code == 200:
                 return response.text
             else:
