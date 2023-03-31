@@ -13,4 +13,4 @@ spec:
         - image: docker.io/villardl/ping
           env:
             - name: TARGET
-              value: "http://pong.tenant1-ns2:8080"
+              value: "http://pong.tenant1-ns2"
