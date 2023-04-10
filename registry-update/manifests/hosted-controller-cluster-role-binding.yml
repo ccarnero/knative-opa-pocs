@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: role-hosted-service-controller-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: role-hosted-service-controller
+subjects:
+  - kind: ServiceAccount
+    name: hosted-service-controller-service-account
+    namespace: hosted-services

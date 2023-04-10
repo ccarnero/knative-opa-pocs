@@ -1,0 +1,5 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hosted-service-controller-service-account
+  namespace:  hosted-services

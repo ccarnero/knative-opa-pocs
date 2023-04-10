@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "external_authorizer"
+		},
+		{
+			"path": "registry-update"
 		}
 	]
 }

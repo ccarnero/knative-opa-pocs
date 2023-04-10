@@ -1,6 +1,6 @@
 
 #!/usr/bin/env bash
-minikube start --driver=docker --network-plugin=cni --extra-config=kubeadm.pod-network-cidr=192.168.0.0/16 --kubernetes-version=v1.24.3 -p knns  
+minikube start --driver=docker --network-plugin=cni --extra-config=kubeadm.pod-network-cidr=192.168.0.0/16 --kubernetes-version=v1.24.3 -p mtkn  
 
 # CALICO
 echo ">> Installing CALICO"
@@ -64,3 +64,6 @@ kubectl patch configmap/config-domain  \
 # kubectl apply -Rf config/admin/tenant1-ns1
 # kubectl apply -Rf config/tenant1/tenant1-ns1/pong.yaml 
 # kubectl apply -Rf config/tenant1/tenant1-ns1/ping.yaml 
+
+
+kubectl create secret docker-registry ecr-credential-secrets --docker-server=701373377822.dkr.ecr.us-east-1.amazonaws.com --docker-username=AWS --docker-password=$(aws ecr get-login-password) --namespace=talbots-production

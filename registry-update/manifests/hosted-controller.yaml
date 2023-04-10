@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: hosted-service-controller
+  name: hosted-service-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hosted-service-controller
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: hosted-service-controller
+    spec:
+      serviceAccount: hosted-service-controller-service-account
+      imagePullSecrets:
+        - name: ecr-credential-secrets
+      containers:
+      - image: 701373377822.dkr.ecr.us-east-1.amazonaws.com/hosted-controller
+        name: kernel-hosted-service-controller
