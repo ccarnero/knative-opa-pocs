@@ -71,28 +71,6 @@ export const createApiMachinery = (kc, k8s) => {
 
     /**
      *
-     * @param {*} configmap
-     */
-    saveConfigMap: async function (configmap) {
-      return await coreApi.createNamespacedConfigMap(
-        this.owner.metadata.namespace,
-        configmap
-      );
-    },
-
-    /**
-     *
-     * @param {*} service
-     */
-    saveService: async function (service) {
-      const res = await coreApi.createNamespacedService(
-        this.owner.metadata.namespace,
-        service
-      );
-    },
-
-    /**
-     *
      * @param {*} deployment
      */
     saveDeployment: async function (deployment) {
@@ -105,6 +83,20 @@ export const createApiMachinery = (kc, k8s) => {
       );
     },
 
+
+    /**
+     *
+     * @param {*} name
+     */
+    deleteDeployment: async function (name, namespace) {
+      return await customApi.deleteNamespacedCustomObject(
+        "serving.knative.dev", // The group name for Knative resources
+        "v1",                  // The version of the API
+        namespace, // The namespace to create the service in
+        "services",           // The plural name of the resource
+        name
+      );
+    },
 
     event: async function (options) {
       const event = {
@@ -192,7 +184,7 @@ export const createApiMachinery = (kc, k8s) => {
       `
       const result = await kctl(yamlString)
       console.log(`kubectl apply output: ${result}`);
-  }
+    }
 
   };
 

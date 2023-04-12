@@ -41,10 +41,10 @@ const mkTempDir = async () => {
 
 /**
  *
- * @param {*} gameObject
+ * @param {*} hostedServiceObject
  */
-export const download = async (gameObject) => {
-  const url = new URL(gameObject.spec.zipUrl);
+export const download = async (hostedServiceObject) => {
+  const url = new URL(hostedServiceObject.spec.zipUrl);
   const protocol = url.protocol;
   if (protocol == "gs:") {
     return await downloadFromGcs(url);
@@ -57,7 +57,7 @@ export const download = async (gameObject) => {
 
 /**
  *
- * @param {*} gameObject
+ * @param {*} hostedServiceObject
  */
 const downloadFromHttp = async (url) => {
   const filename = url.pathname.substr(1, url.pathname.length).split('/').pop();
