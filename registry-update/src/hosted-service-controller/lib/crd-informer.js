@@ -11,8 +11,6 @@ export const start = (kc, k8s) => {
   const crdInformer = machine.createCrdInformer();
 
   crdInformer.on("add", async (gameObject) => {
-    console.log('add: ', JSON.stringify(gameObject, null, 2));
-    return;
     try {
       if (process.env.DEBUG) {
         console.log(JSON.stringify(gameObject, null, 2));
@@ -24,12 +22,12 @@ export const start = (kc, k8s) => {
       const name = gameObject.spec.name;
 
       // Download and save game.
-      console.log(`Reading cloud floppy disks of "${name}" in progress... 💾`);
-      const configmaps = await saveGame(gameObject, machine);
+      // console.log(`Reading cloud floppy disks of "${name}" in progress... 💾`);
+      // const configmaps = await saveGame(gameObject, machine);
 
       // Deploy game.
       console.log(`Great! Game downloaded, now saving it locally.... ⌛`);
-      await deployGame(gameObject, configmaps, machine);
+      await deployGame(gameObject, undefined, machine);
 
       console.log(`Game ready... 🕹️`);
 
@@ -50,8 +48,6 @@ export const start = (kc, k8s) => {
 
   // TODO: Handle CRD updates.
   crdInformer.on("update", async (obj) => {
-    console.log('update: ', inspect(obj));
-    return;
     if (process.env.DEBUG) {
       console.log(JSON.stringify(gameObject, null, 2));
     }
@@ -59,8 +55,6 @@ export const start = (kc, k8s) => {
 
   // TODO: Handle CRD deletes.
   crdInformer.on("delete", async (obj) => {
-    console.log('delete: ', inspect(obj));
-    return;
     if (process.env.DEBUG) {
       console.log(JSON.stringify(gameObject, null, 2));
     }

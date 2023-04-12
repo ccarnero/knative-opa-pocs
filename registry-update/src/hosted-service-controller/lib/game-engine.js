@@ -46,6 +46,47 @@ export async function downloadAndCreateConfigmapsSpec(gameObject) {
  *
  * @param {*} gameObject
  */
+const createKnServiceSpec = (gameObject) => {
+  const name = gameObject.metadata.name;
+  const service = {
+    apiVersion: 'serving.knative.dev/v1',
+    kind: 'Service',
+    metadata:
+    {
+      name: 'pong',
+      namespace: 'talbots-production',
+      labels:
+        { 'app.kubernetes.io/name': 'pong' }
+    },
+    spec:
+    {
+      template: {
+        metadata: {
+          annotations: {
+            'autoscaling.knative.dev/min-scale': "1"
+          }
+        },
+        spec: {
+          imagePullSecrets: [
+            { name: 'ecr-credential-secrets' }
+          ],
+          containers: [
+            {
+              image: '701373377822.dkr.ecr.us-east-1.amazonaws.com/talbots/pong',
+              ports: [{ containerPort: 8080 }]
+            }
+          ]
+        }
+      }
+    }
+  };
+  return service;
+};
+
+/**
+ *
+ * @param {*} gameObject
+ */
 const createServiceSpec = (gameObject) => {
   const name = gameObject.metadata.name;
   const service = {
@@ -246,22 +287,22 @@ export const saveGame = async (gameObject, machine) => {
  */
 export const deployGame = async (gameObject, configmaps, machine) => {
   try {
-    const configMapsNames = [];
-    configmaps.map((configmap) => {
-      const filename = Object.keys(configmap.binaryData).pop();
-      configMapsNames.push({
-        filename: filename,
-        configmapName: configmap.metadata.name,
-      });
-    });
+    // const configMapsNames = [];
+    // configmaps.map((configmap) => {
+    //   const filename = Object.keys(configmap.binaryData).pop();
+    //   configMapsNames.push({
+    //     filename: filename,
+    //     configmapName: configmap.metadata.name,
+    //   });
+    // });
 
     // Create deployment.
-    const deployment = createDeploymentSpec(gameObject, configMapsNames);
-    await machine.save("Deployment", deployment);
+    // const deployment = createDeploymentSpec(gameObject, configMapsNames);
+    // await machine.save("Deployment", deployment);
 
     // Create service.
-    const service = createServiceSpec(gameObject);
-    await machine.save("Service", service);
+    const service = createKnServiceSpec(gameObject);
+    await machine.launch(service);
 
     await machine.event({
       reason: "Deployed",

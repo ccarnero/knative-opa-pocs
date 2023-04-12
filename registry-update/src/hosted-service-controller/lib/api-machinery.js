@@ -1,4 +1,6 @@
 import * as util from "./util.js";
+import { spawn } from 'child_process';
+
 
 export const createApiMachinery = (kc, k8s) => {
   /**
@@ -100,8 +102,6 @@ export const createApiMachinery = (kc, k8s) => {
       );
     },
 
-    saveServices: async () => {},
-    saveIngress: async () => {},
 
     event: async function (options) {
       const event = {
@@ -140,8 +140,61 @@ export const createApiMachinery = (kc, k8s) => {
       }
       const addLabels = util.addDefaultLabels(object, this.owner);
       const final = util.addOwnerReference(addLabels, this.owner);
-      return await this[funcName](final);
+      return await this[funcName](object);
     },
+
+    launch: async function kubectlApply(object) {
+      const kctl = (yamlString) => new Promise((resolve, reject) => {
+        const kubectl = spawn('kubectl', ['apply', '-f', '-']);
+
+        kubectl.stdin.write(yamlString);
+        kubectl.stdin.end();
+
+        let stdout = '';
+        let stderr = '';
+
+        kubectl.stdout.on('data', (data) => {
+          stdout += data.toString();
+        });
+
+        kubectl.stderr.on('data', (data) => {
+          stderr += data.toString();
+        });
+
+        kubectl.on('close', (code) => {
+          if (code !== 0) {
+            reject(new Error(`kubectl process exited with code ${code}: ${stderr}`));
+          } else {
+            resolve(stdout);
+          }
+        });
+      });
+      const yamlString = `
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      metadata:
+        name: pong
+        namespace: talbots-production
+        labels:
+          app.kubernetes.io/name: pong
+          # networking.knative.dev/visibility: cluster-local
+      spec:
+        template:
+          metadata:
+            annotations:
+              autoscaling.knative.dev/min-scale: "1"
+          spec:
+            imagePullSecrets:
+              - name: ecr-credential-secrets
+            containers:
+              - image: 701373377822.dkr.ecr.us-east-1.amazonaws.com/talbots/pong
+                ports:
+                  - containerPort: 8080
+      `
+      const result = await kctl(yamlString)
+      console.log(`kubectl apply output: ${result}`);
+  }
+
   };
 
   return apiMachinery;

@@ -3,12 +3,6 @@ kind: ClusterRole
 metadata:
   name: role-hosted-service-controller
 rules:
-- apiGroups: ["kernel.madcloud.io"]
-  resources: ["hosted-services", "hosted-services/status"]
-  verbs: ["*"]
-- apiGroups: ["",]
-  resources: ["configmaps", "events", "services"]
-  verbs: ["*"]
-- apiGroups: ["apps"]
-  resources: ["deployments"]
+- apiGroups: ["*"]
+  resources: ["*"]
   verbs: ["*"]
