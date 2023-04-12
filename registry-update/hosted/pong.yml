@@ -1,8 +1,8 @@
 apiVersion: kernel.madcloud.io/v1
 kind: HostedService
 metadata:
-  name: pong
+  name: pongb
 spec:
-  name: "Pong1"
+  name: "pongb"
   imageRepository: "701373377822.dkr.ecr.us-east-1.amazonaws.com/talbots/pong"
   tag: "latest"

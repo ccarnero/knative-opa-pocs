@@ -24,12 +24,12 @@ export function addOwnerReference(api, owner) {
 }
 
 export function addDefaultLabels(api, owner) {
-  if (!api.metadata && owner.metadata) {
+  if (!api.metadata) {
     throw `Objects must contain a metadata property`;
   }
   const newApi = { ...api };
   const defaultLabels = {
-    "sparkfabrik.com/game": owner.metadata.name,
+    "app.kubernetes.io/name": api.metadata.name,
   };
   newApi.metadata.labels = { ...newApi.metadata.labels, ...defaultLabels };
   return newApi;

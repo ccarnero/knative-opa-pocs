@@ -124,74 +124,45 @@ const createServiceSpec = (gameObject) => {
  * @param {*} name
  * @param {*} configmaps
  */
-const createDeploymentSpec = (gameObject, configmaps) => {
-  const name = gameObject.metadata.name;
+const createDeploymentSpec = (gameObject) => {
+  const { metadata, spec } = gameObject;
+
+  const { name, imageRepository, tag = 'default' } = spec;
+  const { namespace } = metadata;
+
   const deployment = {
+    apiVersion: "serving.knative.dev/v1",
+    kind: "Service",
     metadata: {
-      name: name,
-      labels: {
-        app: name,
-      },
+      name,
+      namespace,
     },
     spec: {
-      replicas: 1,
-      selector: {
-        matchLabels: {
-          app: name,
-        },
-      },
       template: {
         metadata: {
-          labels: {
-            app: name,
-          },
+          annotations: {
+            "autoscaling.knative.dev/class": "kpa.autoscaling.knative.dev",
+            'autoscaling.knative.dev/min-scale': "1"
+          }
         },
         spec: {
-          initContainers: [
-            {
-              name: "hydrate-game",
-              image: "701373377822.dkr.ecr.us-east-1.amazonaws.com/hosted-controller:latest",
-              imagePullPolicy: "Always",
-              command: [
-                "bash",
-                "-c",
-                "cd /split && ls | sort -n | xargs cat > /games/game.zip && cd /games && unzip game.zip && rm game.zip",
-              ],
-            },
-          ],
+          imagePullSecrets:
+            [{ name: 'ecr-credential-secrets' }],
           containers: [
             {
-              name: "game-engine",
-              image: "701373377822.dkr.ecr.us-east-1.amazonaws.com/hosted-controller:latest",
-              imagePullPolicy: "Always",
-              env: [
-                {
-                  name: "GAME_DIR",
-                  value: gameObject.spec.dir,
-                },
-                {
-                  name: "GAME_EXE",
-                  value: gameObject.spec.exe,
-                },
-                {
-                  name: "DISPLAY_SETTINGS",
-                  value: "1024x768x24",
-                },
-              ],
+              image: `${imageRepository}:${tag}`,
               ports: [
                 {
-                  containerPort: 8080,
-                  containerPort: 8081,
-                },
-              ],
-            },
-          ],
-        },
-      },
-    },
+                  containerPort: 8080
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
   };
-  const deploymentWithVolumes = addDeploymentVolumes(deployment, configmaps);
-  return deploymentWithVolumes;
+  return deployment;
 };
 
 /**
@@ -285,35 +256,23 @@ export const saveGame = async (gameObject, machine) => {
  *
  * @param {*} machine
  */
-export const deployGame = async (gameObject, configmaps, machine) => {
+export const deployGame = async (gameObject, machine) => {
   try {
-    // const configMapsNames = [];
-    // configmaps.map((configmap) => {
-    //   const filename = Object.keys(configmap.binaryData).pop();
-    //   configMapsNames.push({
-    //     filename: filename,
-    //     configmapName: configmap.metadata.name,
-    //   });
-    // });
-
     // Create deployment.
-    // const deployment = createDeploymentSpec(gameObject, configMapsNames);
-    // await machine.save("Deployment", deployment);
+    const deployment = createDeploymentSpec(gameObject);
+    const result = await machine.save("Deployment", deployment);
 
-    // Create service.
-    const service = createKnServiceSpec(gameObject);
-    await machine.launch(service);
-
-    await machine.event({
-      reason: "Deployed",
-      message: `Deployment and service correctly created`,
-    });
+    return;
+    // await machine.event({
+    //   reason: "Deployed",
+    //   message: `Deployment and service correctly created`,
+    // });
   } catch (e) {
-    await machine.event({
-      reason: "Failed",
-      type: "Warning",
-      message: `Failed to start the game cause: ${JSON.stringify(e.message)}`,
-    });
+    // await machine.event({
+    //   reason: "Failed",
+    //   type: "Warning",
+    //   message: `Failed to start the game cause: ${JSON.stringify(e.message)}`,
+    // });
     throw e;
   }
 };

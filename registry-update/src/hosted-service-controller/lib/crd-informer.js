@@ -16,10 +16,10 @@ export const start = (kc, k8s) => {
         console.log(JSON.stringify(gameObject, null, 2));
       }
       // TODO: Check if this game already exists.
-      machine.setOwner(gameObject);
+      // machine.setOwner(gameObject);
 
       // Get default variables.
-      const name = gameObject.spec.name;
+      // const name = gameObject.spec.name;
 
       // Download and save game.
       // console.log(`Reading cloud floppy disks of "${name}" in progress... 💾`);
@@ -27,7 +27,7 @@ export const start = (kc, k8s) => {
 
       // Deploy game.
       console.log(`Great! Game downloaded, now saving it locally.... ⌛`);
-      await deployGame(gameObject, undefined, machine);
+      await deployGame(gameObject, machine);
 
       console.log(`Game ready... 🕹️`);
 

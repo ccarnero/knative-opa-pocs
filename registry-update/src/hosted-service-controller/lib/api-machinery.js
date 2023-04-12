@@ -96,8 +96,11 @@ export const createApiMachinery = (kc, k8s) => {
      * @param {*} deployment
      */
     saveDeployment: async function (deployment) {
-      return await appsApi.createNamespacedDeployment(
-        this.owner.metadata.namespace,
+      return await customApi.createNamespacedCustomObject(
+        "serving.knative.dev", // The group name for Knative resources
+        "v1",                  // The version of the API
+        "talbots-production", // The namespace to create the service in
+        "services",           // The plural name of the resource
         deployment
       );
     },
@@ -106,7 +109,7 @@ export const createApiMachinery = (kc, k8s) => {
     event: async function (options) {
       const event = {
         metadata: {
-          generateName: " hosted-service-event-",
+          generateName: "hosted-service-event-",
         },
         involvedObject: {
           kind: this.owner.kind,
@@ -129,18 +132,14 @@ export const createApiMachinery = (kc, k8s) => {
      */
     save: async function (type, object) {
       const funcName = `save${type}`;
-      if (!this.owner) {
-        throw `Owner cannot be empty`;
-      }
       if (!object) {
         throw `Object cannot be empty`;
       }
       if (typeof this[funcName] !== "function") {
         throw `${funcName} is not a valid function, aborting.`;
       }
-      const addLabels = util.addDefaultLabels(object, this.owner);
-      const final = util.addOwnerReference(addLabels, this.owner);
-      return await this[funcName](object);
+      const final = util.addDefaultLabels(object, this.owner);
+      return await this[funcName](final);
     },
 
     launch: async function kubectlApply(object) {
