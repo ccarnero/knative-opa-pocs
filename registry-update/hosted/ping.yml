@@ -1,0 +1,8 @@
+apiVersion: kernel.madcloud.io/v1
+kind: HostedService
+metadata:
+  name: ping1
+spec:
+  name: "ping1"
+  imageRepository: "701373377822.dkr.ecr.us-east-1.amazonaws.com/talbots/ping"
+  tag: "latest"
