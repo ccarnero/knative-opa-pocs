@@ -26,6 +26,16 @@ spec:
                   type: string
                 tag:
                   type: string
+                envs:
+                  type: array
+                  maxItems: 20
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      value:
+                        type: string
               required:
                 - name
                 - imageRepository

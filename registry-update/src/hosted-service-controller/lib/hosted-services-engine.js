@@ -55,24 +55,35 @@ const createDeploymentSpec = (hostedServiceObject) => {
 const createConfigMapSpec = (hostedServiceObject) => {
   const { metadata, spec } = hostedServiceObject;
 
-  const { name } = spec;
+  const { name, envs = [] } = spec;
   const { namespace } = metadata;
   const [tenant, environment] = namespace.split('-');
 
   const configMapRefName = `${name}-configmap`;
 
-  // create configmap 4 deployment
-  return {
-    "apiVersion": "v1",
-    "kind": "ConfigMap",
-    "metadata": {
-      "name": configMapRefName
-    },
-    "data": {
+  const envsArray = envs.reduce((envDict, env) => {
+    const name = env.name;
+    const value = env.value ?? '';
+    envDict[name] = value;
+    return envDict;
+  }, {});
+
+  const data = {
+    ...{
       'HOST_SERVICENAME': name,
       'HOST_TENANT': tenant,
       'HOST_ENVIRONMENT': environment,
-    }
+    },
+    ...envsArray
+  }
+  // create configmap 4 deployment
+  return {
+    apiVersion: "v1",
+    kind: "ConfigMap",
+    metadata: {
+      name: configMapRefName
+    },
+    data
   }
 }
 
