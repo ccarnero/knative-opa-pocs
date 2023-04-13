@@ -83,7 +83,13 @@ export const createApiMachinery = (kc, k8s) => {
       );
     },
 
-
+    saveConfigMap: async function (configmap) {
+      return await coreApi.createNamespacedConfigMap(
+        this.owner.metadata.namespace,
+        configmap
+      );
+    },
+  
     /**
      *
      * @param {*} name

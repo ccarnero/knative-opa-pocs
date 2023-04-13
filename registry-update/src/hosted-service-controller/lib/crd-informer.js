@@ -12,9 +12,12 @@ export const start = (kc, k8s) => {
 
   crdInformer.on("add", async (hostedServiceObject) => {
     try {
-      if (process.env.DEBUG) {
-        console.log(JSON.stringify(hostedServiceObject, null, 2));
-      }
+      // if (process.env.DEBUG) {
+        console.log(`
+        ADD:
+        ${JSON.stringify(hostedServiceObject, null, 2)}
+        `);
+      // }
       // TODO:
       // Check if already exists.
       // Get/merge default variables.
@@ -40,9 +43,12 @@ export const start = (kc, k8s) => {
 
   // TODO: Handle CRD updates.
   crdInformer.on("update", async (obj) => {
-    if (process.env.DEBUG) {
-      console.log(JSON.stringify(hostedServiceObject, null, 2));
-    }
+    // if (process.env.DEBUG) {
+      console.log(`
+      UPDATE:
+      ${JSON.stringify(obj, null, 2)}
+      `);
+    // }
   });
 
   // TODO: Handle CRD deletes.

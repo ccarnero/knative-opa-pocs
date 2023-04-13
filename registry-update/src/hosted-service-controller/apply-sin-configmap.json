@@ -1,0 +1,57 @@
+
+      UPDATE:
+      {
+  "apiVersion": "kernel.madcloud.io/v1",
+  "kind": "HostedService",
+  "metadata": {
+    "annotations": {
+      "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"kernel.madcloud.io/v1\",\"kind\":\"HostedService\",\"metadata\":{\"annotations\":{},\"name\":\"pong\",\"namespace\":\"talbots-production\"},\"spec\":{\"imageRepository\":\"701373377822.dkr.ecr.us-east-1.amazonaws.com/talbots/pong\",\"name\":\"pong\",\"tag\":\"latest\"}}\n"
+    },
+    "creationTimestamp": "2023-04-13T18:37:30Z",
+    "generation": 1,
+    "managedFields": [
+      {
+        "apiVersion": "kernel.madcloud.io/v1",
+        "fieldsType": "FieldsV1",
+        "fieldsV1": {
+          "f:metadata": {
+            "f:annotations": {
+              ".": {},
+              "f:kubectl.kubernetes.io/last-applied-configuration": {}
+            }
+          },
+          "f:spec": {
+            ".": {},
+            "f:imageRepository": {},
+            "f:name": {},
+            "f:tag": {}
+          }
+        },
+        "manager": "kubectl-client-side-apply",
+        "operation": "Update",
+        "time": "2023-04-13T18:37:30Z"
+      },
+      {
+        "apiVersion": "kernel.madcloud.io/v1",
+        "fieldsType": "FieldsV1",
+        "fieldsV1": {
+          "f:status": {}
+        },
+        "manager": "unknown",
+        "operation": "Update",
+        "subresource": "status",
+        "time": "2023-04-13T18:37:30Z"
+      }
+    ],
+    "name": "pong",
+    "namespace": "talbots-production",
+    "resourceVersion": "312275",
+    "uid": "73a23120-4621-49b5-9f2c-166693aa3b29"
+  },
+  "spec": {
+    "imageRepository": "701373377822.dkr.ecr.us-east-1.amazonaws.com/talbots/pong",
+    "name": "pong",
+    "tag": "latest"
+  },
+  "status": {}
+}
