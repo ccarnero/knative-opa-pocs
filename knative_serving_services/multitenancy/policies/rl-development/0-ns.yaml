@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: tenant2-ns2
+  name: rl-development
   labels:
-    admin.knative.dev/tenant-name: tenant2
+    admin.knative.dev/tenant-name: rl
   annotations:
     kourier.knative.dev/listener-port: "8083"

@@ -2,19 +2,19 @@ kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
   name: allow-all-in-ns
-  namespace: tenant2-ns1
+  namespace: rl-development
 spec:
   podSelector: {}
   ingress:
     - from:
       - namespaceSelector:
           matchLabels:
-            kubernetes.io/metadata.name: tenant2-ns1
+            kubernetes.io/metadata.name: rl-development
   egress:
     - to:
       - namespaceSelector:
           matchLabels:
-            kubernetes.io/metadata.name: tenant2-ns1
+            kubernetes.io/metadata.name: rl-development
       - namespaceSelector:
           matchLabels:
             kubernetes.io/metadata.name: kube-system

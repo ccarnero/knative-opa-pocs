@@ -18,7 +18,7 @@ export const start = (kc, k8s) => {
       // TODO:
       // Check if already exists.
       // Get/merge default variables.
-
+      machine.setOwner(hostedServiceObject)
       await deployHostedService(hostedServiceObject, machine);
 
       console.log(`service deployed`);

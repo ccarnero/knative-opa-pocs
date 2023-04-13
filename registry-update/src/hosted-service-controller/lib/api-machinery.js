@@ -77,7 +77,7 @@ export const createApiMachinery = (kc, k8s) => {
       return await customApi.createNamespacedCustomObject(
         "serving.knative.dev", // The group name for Knative resources
         "v1",                  // The version of the API
-        "talbots-production", // The namespace to create the service in
+        deployment.metadata.namespace, // The namespace to create the service in
         "services",           // The plural name of the resource
         deployment
       );
@@ -92,7 +92,7 @@ export const createApiMachinery = (kc, k8s) => {
       return await customApi.deleteNamespacedCustomObject(
         "serving.knative.dev", // The group name for Knative resources
         "v1",                  // The version of the API
-        namespace, // The namespace to create the service in
+        namespace,            // The namespace to delete the service
         "services",           // The plural name of the resource
         name
       );

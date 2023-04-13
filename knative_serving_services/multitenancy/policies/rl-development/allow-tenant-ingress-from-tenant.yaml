@@ -1,8 +1,8 @@
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: allow-public-ingress-from-tenant
-  namespace: tenant2-ns1
+  name: allow-tenant-ingress-from-tenant
+  namespace: rl-development
 spec:
   podSelector: {}
   egress:
@@ -12,6 +12,6 @@ spec:
             kubernetes.io/metadata.name: kourier-system
       ports:
         - protocol: TCP
-          port: 8080
+          port: 8083
   policyTypes:
     - Egress

@@ -2,7 +2,7 @@ apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: ping
-  namespace: tenant2-ns2
+  namespace: rl-development
 spec:
   template:
     metadata:
@@ -13,4 +13,4 @@ spec:
         - image: docker.io/villardl/ping
           env:
             - name: TARGET
-              value: "http://pong.tenant2-ns2"
+              value: "http://pong.rl-development"

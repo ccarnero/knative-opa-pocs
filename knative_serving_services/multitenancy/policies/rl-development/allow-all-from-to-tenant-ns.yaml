@@ -2,19 +2,19 @@ kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
   name: allow-all-from-to-tenant-ns
-  namespace: tenant2-ns2
+  namespace: rl-development
 spec:
   podSelector: {}
   ingress:
     - from:
       - namespaceSelector:
           matchLabels:
-            admin.kourier.dev/tenant-name: tenant2
+            admin.kourier.dev/tenant-name: rl
   egress:
     - to:
       - namespaceSelector:
           matchLabels:
-            admin.kourier.dev/tenant-name: tenant2
+            admin.kourier.dev/tenant-name: rl
   policyTypes:
     - Egress
     - Ingress

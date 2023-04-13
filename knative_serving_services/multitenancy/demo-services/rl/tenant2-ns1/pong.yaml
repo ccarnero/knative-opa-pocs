@@ -2,7 +2,7 @@ apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: pong
-  namespace: tenant2-ns1
+  namespace: rl-development
   labels:
     app.kubernetes.io/name: pong
     networking.knative.dev/visibility: cluster-local
