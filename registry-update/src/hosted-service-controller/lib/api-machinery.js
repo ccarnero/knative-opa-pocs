@@ -95,6 +95,10 @@ export const createApiMachinery = (kc, k8s) => {
      * @param {*} name
      */
     deleteDeployment: async function (name, namespace) {
+      //deletes associated configmap
+      const configMapRefName = `${name}-configmap`;
+      await coreApi.deleteNamespacedConfigMap(configMapRefName, namespace);
+
       return await customApi.deleteNamespacedCustomObject(
         "serving.knative.dev", // The group name for Knative resources
         "v1",                  // The version of the API
@@ -120,6 +124,7 @@ export const createApiMachinery = (kc, k8s) => {
         lastTimestamp: new Date(),
         message: options.message,
       };
+      console.log('EVENT: ==>> ', JSON.stringify(event, null,2))
       await coreApi.createNamespacedEvent(this.owner.metadata.namespace, event);
     },
 

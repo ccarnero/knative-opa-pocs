@@ -4,9 +4,14 @@ import socketserver
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
-        logging.info("pong")
-        self.send_response(200)
-        self.end_headers()
+        if self.path == '/healtz':
+            self.send_response(200)
+            self.end_headers()
+            return
+        else:
+            logging.info("pong")
+            self.send_response(200)
+            self.end_headers()
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

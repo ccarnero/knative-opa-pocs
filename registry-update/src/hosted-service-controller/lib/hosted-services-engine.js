@@ -1,3 +1,5 @@
+import { inspect } from 'node:util';
+
 /**
  *
  * @param {*} name
@@ -6,7 +8,7 @@
 const createDeploymentSpec = (hostedServiceObject) => {
   const { metadata, spec } = hostedServiceObject;
 
-  const { name, imageRepository, tag = 'default' } = spec;
+  const { name, imageRepository, tag = 'default', minScale } = spec;
   const { namespace } = metadata;
   const [tenant, environment] = namespace.split('-');
 
@@ -24,7 +26,8 @@ const createDeploymentSpec = (hostedServiceObject) => {
         metadata: {
           annotations: {
             "autoscaling.knative.dev/class": "kpa.autoscaling.knative.dev",
-            'autoscaling.knative.dev/min-scale': "1"
+            'autoscaling.knative.dev/min-scale':  `${minScale}`
+            // TODO: solo un admin podria tocar esto de aca arriba
           }
         },
         spec: {
@@ -107,10 +110,12 @@ export const deployHostedService = async (hostedServiceObject, machine) => {
       message: `Deployment and service correctly created`,
     });
   } catch (e) {
+    const _error = inspect(e)
+    console.log("INSPECT ==>", _error)
     await machine.event({
       reason: "Failed",
       type: "Warning",
-      message: `Failed to start the game cause: ${ JSON.stringify(e.message) } `,
+      message: `Failed to start the service cause: ${ JSON.stringify(e.message) } `,
     });
     throw e;
   }

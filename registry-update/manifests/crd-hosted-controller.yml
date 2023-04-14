@@ -26,6 +26,9 @@ spec:
                   type: string
                 tag:
                   type: string
+                minScale:
+                  type: integer
+                  default: 0
                 envs:
                   type: array
                   maxItems: 20

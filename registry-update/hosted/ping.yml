@@ -1,11 +1,32 @@
 apiVersion: kernel.madcloud.io/v1
 kind: HostedService
 metadata:
-  name: ping1
+  name: ping-rl
 spec:
-  name: ping1
-  imageRepository: 701373377822.dkr.ecr.us-east-1.amazonaws.com/talbots/ping
+  name: ping-rl
+  imageRepository: docker.io/villardl/ping
   tag: latest
+  minScale: 1
   envs:
   - name: TARGET
-    value: http://pong.talbots-production
+    value: http://pong.rl-development
+
+##
+# nuestros servicios tienen:
+# - rutas publicas
+# - env vars (ahora podemos agregar secrets en forma sencilla)
+# todo esto puede definirse en este mismo archivo, una sola interface x ej
+# para actualizar solo los valores de este servicio podria ejecutar esto:
+
+# apiVersion: kernel.madcloud.io/v1
+# kind: HostedService
+# metadata:
+#   name: ping1
+# spec:
+#   envs:
+#   - name: TARGET
+#     value: http://pong.talbots-production
+
+# asi tambien, podriamos actualizar los variables de entorno en tiempo real en todos los pod usando
+# algo tipo `kubectl exec pod.... TARGET=http://....
+
