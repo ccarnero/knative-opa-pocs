@@ -1,6 +1,6 @@
 
 #!/usr/bin/env bash
-minikube start --driver=docker --network-plugin=cni --extra-config=kubeadm.pod-network-cidr=192.168.0.0/16 --kubernetes-version=v1.24.3 -p mtkn  
+minikube start --driver=docker --network-plugin=cni --extra-config=kubeadm.pod-network-cidr=192.168.0.0/16 --kubernetes-version=v1.24.3 -p mknative  
 
 # CALICO
 echo ">> Installing CALICO"

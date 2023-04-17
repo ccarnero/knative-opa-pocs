@@ -1,0 +1,20 @@
+apiVersion: kernel.madcloud.io/v1
+kind: HostedService
+metadata:
+  name: ping-talbots
+spec:
+  name: ping-talbots
+  imageRepository: docker.io/villardl/ping
+  tag: latest
+  minScale: 1                               # 1 o mas deja la instancia viva
+  envs:                                     # basado en configMaps
+  - name: TARGET
+    value: http://pong.talbots-development
+  secrets:                                  # basado en secrets
+    - name: PASSWORD
+      value: ??????
+
+
+# asi tambien, podriamos actualizar los variables de entorno en tiempo real en todos los pod usando
+# algo tipo `kubectl exec pod.... TARGET=http://....
+

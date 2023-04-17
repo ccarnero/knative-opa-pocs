@@ -8,7 +8,11 @@ import { inspect } from 'node:util';
 const createDeploymentSpec = (hostedServiceObject) => {
   const { metadata, spec } = hostedServiceObject;
 
-  const { name, imageRepository, tag = 'default', minScale } = spec;
+  const { name, imageRepository, 
+    tag = 'default', 
+    minScale,
+    // private
+   } = spec;
   const { namespace } = metadata;
   const [tenant, environment] = namespace.split('-');
 
@@ -20,12 +24,16 @@ const createDeploymentSpec = (hostedServiceObject) => {
     metadata: {
       name,
       namespace,
+      labels:{
+        'app.kubernetes.io/name' : name,
+        'networking.knative.dev/visibility': 'cluster-local'
+      }
     },
     spec: {
       template: {
         metadata: {
           annotations: {
-            "autoscaling.knative.dev/class": "kpa.autoscaling.knative.dev",
+            // "autoscaling.knative.dev/class": "kpa.autoscaling.knative.dev",
             'autoscaling.knative.dev/min-scale':  `${minScale}`
             // TODO: solo un admin podria tocar esto de aca arriba
           }

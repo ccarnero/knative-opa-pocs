@@ -1,15 +1,15 @@
 apiVersion: kernel.madcloud.io/v1
 kind: HostedService
 metadata:
-  name: ping-rl
+  name: ping-talbots
 spec:
-  name: ping-rl
+  name: ping-talbots
   imageRepository: docker.io/villardl/ping
   tag: latest
   minScale: 1
   envs:
   - name: TARGET
-    value: http://pong.rl-development
+    value: http://pong.talbots-development
 
 ##
 # nuestros servicios tienen:
