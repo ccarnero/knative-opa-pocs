@@ -29,6 +29,8 @@ spec:
                 minScale:
                   type: integer
                   default: 0
+                visibility:
+                  type: string
                 envs:
                   type: array
                   maxItems: 20

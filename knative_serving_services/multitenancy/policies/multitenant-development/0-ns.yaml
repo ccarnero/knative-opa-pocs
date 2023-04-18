@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: multitenant-development
-  labels:
-    admin.knative.dev/tenant-name: multitenant
-  annotations:
-    kourier.knative.dev/listener-port: "9000"

@@ -7,6 +7,7 @@ spec:
   imageRepository: docker.io/villardl/ping
   tag: latest
   minScale: 1                               # 1 o mas deja la instancia viva
+  visibility: "internal"
   envs:                                     # basado en configMaps
   - name: TARGET
     value: http://pong.talbots-development

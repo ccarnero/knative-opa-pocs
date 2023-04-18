@@ -8,15 +8,23 @@ import { inspect } from 'node:util';
 const createDeploymentSpec = (hostedServiceObject) => {
   const { metadata, spec } = hostedServiceObject;
 
-  const { name, imageRepository, 
-    tag = 'default', 
+  const { name, imageRepository,
+    tag = 'default',
     minScale,
-    // private
-   } = spec;
+    visibility = 'public'
+  } = spec;
   const { namespace } = metadata;
   const [tenant, environment] = namespace.split('-');
 
   const configMapRefName = `${name}-configmap`;
+  const labels = visibility === 'internal' ?
+    {
+      'app.kubernetes.io/name': name,
+      'networking.knative.dev/visibility': 'cluster-local'
+    } : {
+      'app.kubernetes.io/name': name,
+    }
+
 
   const deployment = {
     apiVersion: "serving.knative.dev/v1",
@@ -24,17 +32,14 @@ const createDeploymentSpec = (hostedServiceObject) => {
     metadata: {
       name,
       namespace,
-      labels:{
-        'app.kubernetes.io/name' : name,
-        'networking.knative.dev/visibility': 'cluster-local'
-      }
+      labels
     },
     spec: {
       template: {
         metadata: {
           annotations: {
             // "autoscaling.knative.dev/class": "kpa.autoscaling.knative.dev",
-            'autoscaling.knative.dev/min-scale':  `${minScale}`
+            'autoscaling.knative.dev/min-scale': `${minScale}`
             // TODO: solo un admin podria tocar esto de aca arriba
           }
         },
@@ -123,7 +128,7 @@ export const deployHostedService = async (hostedServiceObject, machine) => {
     await machine.event({
       reason: "Failed",
       type: "Warning",
-      message: `Failed to start the service cause: ${ JSON.stringify(e.message) } `,
+      message: `Failed to start the service cause: ${JSON.stringify(e.message)} `,
     });
     throw e;
   }

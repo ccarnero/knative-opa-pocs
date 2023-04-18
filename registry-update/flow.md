@@ -9,7 +9,7 @@ flowchart LR
         hsc(hosted-services-controller)---->service-a
         hsc(hosted-services-controller)---->service-b
     end
-    subgraph multitenant-services
+    subgraph mt-services
         hsc(hosted-services-controller)---->service-c
     end
 

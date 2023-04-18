@@ -2,7 +2,7 @@ kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
   name: allow-public-ingress-from-tenant
-  namespace: multitenant-development
+  namespace: mt-development
 spec:
   podSelector: {}
   egress:

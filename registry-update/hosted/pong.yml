@@ -3,8 +3,7 @@ kind: HostedService
 metadata:
   name: pong 
 spec:
-  name: "pong" # redundante, ver como darle buena forma a esto
+  name: pong # redundante, ver como darle buena forma a esto
   imageRepository: docker.io/villardl/pong
   tag: "latest"
-
-# quizas tener uno que tenga vs servicios dentro de 1 solo pod
+  # visibility: "internal"

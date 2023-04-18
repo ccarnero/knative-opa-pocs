@@ -1,26 +1,31 @@
 
 #!/usr/bin/env bash
-minikube start --driver=docker --network-plugin=cni --extra-config=kubeadm.pod-network-cidr=192.168.0.0/16 --kubernetes-version=v1.24.3 -p mknative  
+# minikube start --driver=docker --network-plugin=cni --extra-config=kubeadm.pod-network-cidr=192.168.0.0/16 --kubernetes-version=v1.24.3 -p mknative  
+
+minikube start --driver=docker --network-plugin=cni --extra-config=kubeadm.pod-network-cidr=192.168.0.0/16 --cni=calico -p mknative  
+
 
 # CALICO
-echo ">> Installing CALICO"
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/tigera-operator.yaml 
-while ! kubectl wait pod --all -n tigera-operator --for=condition=Ready --timeout=120s --all
-do
-  echo "... ... waiting"
-  sleep 10
-done
-echo ">> ... installing CALICO CRDs"
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/custom-resources.yaml
-kubectl wait --for=condition=Established --all crd
+# echo ">> Installing CALICO"
+# kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/tigera-operator.yaml 
+# while ! kubectl wait pod --all -n tigera-operator --for=condition=Ready --timeout=120s --all
+# do
+#   echo "... ... waiting"
+#   sleep 10
+# done
+# echo ">> ... installing CALICO CRDs"
+# kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/custom-resources.yaml
+# kubectl wait --for=condition=Established --all crd
 echo ">> ... waiting for calico-system up"
-while ! kubectl wait pod --all -n calico-system --for=condition=Ready --timeout=240s --all
+# while ! kubectl wait pod --all -n calico-system --for=condition=Ready --timeout=240s --all
+while ! kubectl wait pod --all -n kube-system --for=condition=Ready --timeout=240s --all
 do
   echo "... ... waiting"
   sleep 10
 done
 echo ">> ... setting FELIX_IGNORELOOSERPF"
-kubectl -n calico-system set env daemonset/calico-node FELIX_IGNORELOOSERPF=true
+# kubectl -n calico-system set env daemonset/calico-node FELIX_IGNORELOOSERPF=true
+kubectl -n kube-system set env daemonset/calico-node FELIX_IGNORELOOSERPF=true
 
 echo ">> Installing Knative Serving"
 kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.9.2/serving-crds.yaml
