@@ -1,0 +1,31 @@
+apiVersion: kernel.madcloud.io/v1
+kind: MadApplication
+metadata:
+  name: ping-app
+spec:
+  artifacts:
+    - name: pong-multitenant
+      imageRepository: docker.io/villardl/pong
+      tag: latest
+      visibility: "internal"
+    - name: pong-local
+      imageRepository: docker.io/villardl/pong
+      tag: latest
+      visibility: "internal"
+    - name: ping-local
+      imageRepository: docker.io/villardl/ping
+      tag: latest
+      minScale: 1                              
+      envs:                                    
+      - name: TARGET
+        value: http://pong.talbots-development
+    - name: ping-multitenant
+      imageRepository: docker.io/villardl/ping
+      tag: v2
+      minScale: 1                              
+      envs:                                    
+      - name: TARGET
+        value: http://pong.multitenant-development
+
+  # el concepto es el mismo, usar recursos standars de k8s para isolar
+  # en este caso, integrarlo con RBAC  

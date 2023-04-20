@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "registry-update"
+		},
+		{
+			"path": "revissions-demo"
 		}
 	]
 }

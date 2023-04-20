@@ -5,17 +5,26 @@ metadata:
 spec:
   name: ping-talbots
   imageRepository: docker.io/villardl/ping
-  tag: latest
+  tag: ...
   minScale: 1                               # 1 o mas deja la instancia viva
-  visibility: "internal"
+  visibility: public
   envs:                                     # basado en configMaps
   - name: TARGET
     value: http://pong.talbots-development
   secrets:                                  # basado en secrets
     - name: PASSWORD
       value: ??????
-
-
-# asi tambien, podriamos actualizar los variables de entorno en tiempo real en todos los pod usando
-# algo tipo `kubectl exec pod.... TARGET=http://....
-
+  # asi tambien, podriamos actualizar los variables de entorno 
+  # en tiempo real en todos los pod usando 
+  # `kubectl exec pod.... TARGET=http://....
+  revissions:
+  - revisionName: release
+    tag: latest
+    percent: 100 
+  - revisionName: v2
+    tag: v2
+    percent: 0
+  # este ruteo tambien lo podemos meter a nivel header de la llamada
+  # onda: curl \ 
+  #       -H "Host:....example.com" \ 
+  #       -H "Serving-Tag:v2"

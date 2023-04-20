@@ -1,0 +1,19 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  template:
+    spec:
+      containers:
+        - image: my-image:latest
+      serviceAccountName: my-service-account
+  traffic:
+    - revisionName: v1
+      percent: 50
+    - revisionName: v2
+      percent: 50
+    - tag: latest
+      headers:
+        user-agent: "Mozilla/*"
+      revisionName: my-service-v3
